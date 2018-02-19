@@ -1,0 +1,15 @@
+
+# Using Tensorflow
+# RNN layer implementation details on one experiment
+
+
+cell1 = tf.nn.rnn_cell.GRUCell(num_hidden1, activation=tf.tanh)
+
+# input x_image is [-1, 120, 400] [batch_size, sequence_length/max_time, depth/input_size]
+
+batch_vals1, state1 = tf.nn.dynamic_rnn(cell1, x3_image, dtype=tf.float32)
+
+batch_vals1 = tf.transpose(batch_vals1, [1, 0, 2])
+batch_lastVals1 = tf.gather(batch_vals1, int(batch_vals1.get_shape()[0]) - 1)
+
+outputs.append(batch_lastVals1)
