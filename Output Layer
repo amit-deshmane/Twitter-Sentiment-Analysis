@@ -1,0 +1,34 @@
+# Using Tensorflow
+# Details of Dense layer, drop out and output softmax
+
+
+
+# merging CNN, RNN outputs
+merge_flat_concat = tf.concat(1, outputs)
+
+
+# dropout
+
+merge_flat_concat_drop = tf.nn.dropout(merge_flat_concat, keep_prob)
+
+# dense layer 
+new_size = len(filter1_sizes)* output1_channels_1 + num_hidden1 #+ len(filter2_sizes)* output2_channels_1 + num_hidden2
+
+W_fc = weight_variable("W_fc", [new_size, dense_output])
+b_fc = bias_variable([dense_output])
+     
+h_fc = tf.nn.relu(tf.matmul(merge_flat_concat_drop, W_fc) + b_fc)
+
+h_fc_drop = tf.nn.dropout(h_fc, keep_prob)
+
+# output layer
+
+W_fc2 = weight_variable("W_fc2", [dense_output, l_size])
+b_fc2 = bias_variable([l_size])
+
+y_conv=tf.nn.softmax(tf.matmul(h_fc_drop, W_fc2) + b_fc2)
+
+cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y_conv), reduction_indices=[1]))
+train_step = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy)
+correct_prediction = tf.equal(tf.argmax(y_conv,1), tf.argmax(y_,1))
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
