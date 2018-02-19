@@ -1,0 +1,24 @@
+# Using Tensorflow
+# Code snippets on Convolution Layer
+
+
+filter1_sizes = [1,2,3,4,5]
+conv_outputs = []
+
+for filter_size in filter1_sizes:     
+    # first convolution over word embeddings
+                       
+    W1_conv = weight_variable("W1_conv_"+str(filter_index), [filter_size, x1_height, input_channels, output1_channels_1])
+    b1_conv = bias_variable([output1_channels_1])
+    
+    h1_conv = tf.nn.relu(conv2d(x1_image, W1_conv) + b1_conv)
+    h1_pool = max_pool_2x2(h1_conv, x1_width - filter_size + 1, 1)
+    
+    
+    h1_norm = tf.nn.local_response_normalization(h1_pool)
+    h1_norm_flat = tf.reshape(h1_norm, [-1, 1 * 1 * output1_channels_1])
+    conv_outputs.append(h1_norm_flat)
+    filter_index = filter_index + 1
+    
+    
+# Similar one is used over lexicons
