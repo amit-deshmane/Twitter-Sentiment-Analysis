@@ -7,7 +7,7 @@ http://aclweb.org/anthology/S17-2135
 
 
 This local repository would illustrate some concept implementations used in the paper.
-
+Experiments were done using Tensorflow
 
 @InProceedings{S17-2135,
   author = 	"Deshmane, Amit Ajit
